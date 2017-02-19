@@ -4,20 +4,20 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-for i in range(1, 240):
-    soup = BeautifulSoup(open('rawhtml/' + str(i) + '.html'), "html.parser")
+for i in range(1, 723):
+    soup = BeautifulSoup(open('rawdatasetsbashfr/' + str(i) + '.html'), "html.parser")
 
-    quotes = soup.find_all('p', attrs={'class' : 'qt'})
+    quotes = soup.find_all('p', attrs={'class' : 'item-content'})
 
     for quote in quotes:
         text = quote.get_text()
-        lines = text.split('\r\n')
+        text = text.replace('<', '\n <')
+        lines = text.split('\n')
         printed_line = 0
         for line in lines:
-            if len(line) > i and line[0] == '<':
+            if len(line) > 1 and line[1] == '<':
                 i = 1
                 while len(line) > i and line[i] != '>': i+=1
-                #from here, i = index of end of tag
                 print line[i+2:]
                 printed_line += 1
 
